@@ -7,8 +7,7 @@ Terraform module which creates AKS Cluster resources on Azure.
 
 ```hcl
 module "aks-cluster" {
-  source = "/modules/terraform-azure-akscluster"
-
+  source = "git::https://github.com/amido/terraform-azure-akscluster.git"
   cluster_name        = "${var.resource_group_name}"
   agent_count         = "${var.cluster_agent_count}"
   location            = "${var.resource_group_location}"
