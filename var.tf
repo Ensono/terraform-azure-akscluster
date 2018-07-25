@@ -22,6 +22,10 @@ variable cluster_name {
   default = "akscluster"
 }
 
+variable "cluster_location" {
+  default = "northeurope"
+}
+
 variable resource_group_name {
   default = "akscluster"
 }
