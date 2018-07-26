@@ -1,15 +1,10 @@
 ## Must create service-principal ahead of time
 provider azurerm {}
 
-resource "azurerm_resource_group" "k8s" {
-  name     = "${var.resource_group_name}"
-  location = "${var.location}"
-}
-
 resource "azurerm_kubernetes_cluster" "k8s" {
   name                = "${var.cluster_name}"
   location            = "${var.cluster_location}"
-  resource_group_name = "${azurerm_resource_group.k8s.name}"
+  resource_group_name = "${var.resource_group_name}"
   dns_prefix          = "${var.dns_prefix}"
 
   linux_profile {

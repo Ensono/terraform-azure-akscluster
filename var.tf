@@ -30,10 +30,6 @@ variable resource_group_name {
   default = "akscluster"
 }
 
-variable location {
-  default = "westeurope"
-}
-
 # Networking
 
 variable custom_vnet {
