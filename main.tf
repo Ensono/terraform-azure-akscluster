@@ -1,4 +1,5 @@
 ## Must create service-principal ahead of time
+provider azurerm {}
 
 resource "azurerm_resource_group" "k8s" {
   name     = "${var.resource_group_name}"
@@ -25,6 +26,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     vm_size         = "Standard_D2"
     os_type         = "Linux"
     os_disk_size_gb = 30
+    vnet_subnet_id  = "${var.custom_vnet ? var.vnet_subnet_id : "" }"
   }
 
   service_principal {

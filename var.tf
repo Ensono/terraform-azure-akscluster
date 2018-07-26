@@ -1,5 +1,4 @@
-variable "client_id" {}
-variable "client_secret" {}
+#Node Specifics
 
 variable "agent_count" {
   default = 2
@@ -18,6 +17,7 @@ variable "tags" {
   default = {}
 }
 
+# Cluster and resource specifics
 variable cluster_name {
   default = "akscluster"
 }
@@ -33,3 +33,18 @@ variable resource_group_name {
 variable location {
   default = "westeurope"
 }
+
+# Networking
+
+variable custom_vnet {
+  default = false
+}
+
+variable vnet_subnet_id {
+  default = ""
+}
+
+# Set up Kubernetes SPN
+variable "client_id" {}
+
+variable "client_secret" {}
