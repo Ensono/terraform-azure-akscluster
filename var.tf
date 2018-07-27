@@ -44,3 +44,7 @@ variable vnet_subnet_id {
 variable "client_id" {}
 
 variable "client_secret" {}
+
+variable "create_resource" {
+  default = true
+}

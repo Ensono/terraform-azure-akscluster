@@ -2,6 +2,7 @@
 provider azurerm {}
 
 resource "azurerm_kubernetes_cluster" "k8s" {
+  count               = "${var.create_resource ? 1 : 0 }"
   name                = "${var.cluster_name}"
   location            = "${var.cluster_location}"
   resource_group_name = "${var.resource_group_name}"
