@@ -1,6 +1,3 @@
-## Must create service-principal ahead of time
-provider azurerm {}
-
 resource "tls_private_key" "ssh_key" {
   count     = "${var.create_resource ? 1 : 0 }"
   algorithm = "RSA"
