@@ -7,5 +7,5 @@ output "k8s_endpoint" {
 }
 
 output "k8s_private_key_pem" {
-  value = "${element(concat(chomp(tls_private_key.ssh_key.*.private_key_pem), list("")), 0)}"
+  value = "${chomp(element(concat(tls_private_key.ssh_key.*.private_key_pem, list("")),0))}"
 }
