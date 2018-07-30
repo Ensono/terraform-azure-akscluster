@@ -1,6 +1,11 @@
 ## Must create service-principal ahead of time
 provider azurerm {}
 
+resource "tls_private_key" "ssh_key" {
+  count     = "${var.create_resource ? 1 : 0 }"
+  algorithm = "RSA"
+}
+
 resource "azurerm_kubernetes_cluster" "k8s" {
   count               = "${var.create_resource ? 1 : 0 }"
   name                = "${var.cluster_name}"
@@ -12,14 +17,14 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     admin_username = "ubuntu"
 
     ssh_key {
-      key_data = "${file("${var.ssh_public_key}")}"
+      key_data = "${chomp(tls_private_key.ssh_key.public_key_openssh)}"
     }
   }
 
   agent_pool_profile {
     name            = "default"
     count           = "${var.agent_count}"
-    vm_size         = "Standard_D2"
+    vm_size         = "${var.agent_size}"
     os_type         = "Linux"
     os_disk_size_gb = 30
     vnet_subnet_id  = "${var.custom_vnet ? var.vnet_subnet_id : "" }"

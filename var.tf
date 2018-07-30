@@ -4,8 +4,8 @@ variable "agent_count" {
   default = 2
 }
 
-variable "ssh_public_key" {
-  default = "~/.ssh/id_rsa.pub"
+variable "agent_size" {
+  default = "Standard_D2"
 }
 
 variable "dns_prefix" {
