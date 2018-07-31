@@ -4,6 +4,10 @@ variable "agent_count" {
   default = 2
 }
 
+variable "create_ssh_key" {
+  default = true
+}
+
 variable "agent_size" {
   default = "Standard_D2"
 }
@@ -22,10 +26,6 @@ variable cluster_name {
   default = "akscluster"
 }
 
-variable "cluster_location" {
-  default = "northeurope"
-}
-
 variable resource_group_name {
   default = "akscluster"
 }
@@ -36,8 +36,8 @@ variable custom_vnet {
   default = false
 }
 
-variable vnet_subnet_id {
-  default = ""
+variable vnet_subnet_ids {
+  type = "string"
 }
 
 # Set up Kubernetes SPN
@@ -45,6 +45,21 @@ variable "client_id" {}
 
 variable "client_secret" {}
 
-variable "create_resource" {
-  default = true
+variable "cluster_locations" {
+  default = "northeurope,westeurope"
+}
+
+variable "location_name_map" {
+  type = "map"
+
+  default = {
+    northeurope = "eun"
+    westeurope  = "euw"
+    uksouth     = "uks"
+    ukwest      = "ukw"
+  }
+}
+
+locals {
+  cluster_location_list = "${compact(split(",",var.cluster_locations))}"
 }
