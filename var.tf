@@ -26,6 +26,9 @@ variable cluster_name {
   default = "akscluster"
 }
 
+variable cluster_version {
+  default = ""
+}
 variable resource_group_name {
   default = "akscluster"
 }
