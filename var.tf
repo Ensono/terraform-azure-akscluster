@@ -21,7 +21,9 @@ variable "tags" {
 variable cluster_name {
   default = "akscluster"
 }
-
+variable cluster_version {
+  default = ""
+}
 variable "cluster_location" {
   default = "northeurope"
 }
