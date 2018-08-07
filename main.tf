@@ -1,13 +1,17 @@
 resource "tls_private_key" "ssh_key" {
-  count     = "${var.create_resource ? 1 : 0 }"
+  count     = "${var.create_ssh_key ? 1 : 0 }"
   algorithm = "RSA"
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-  count               = "${var.create_resource ? 1 : 0 }"
-  name                = "${var.cluster_name}"
-  location            = "${var.cluster_location}"
-  resource_group_name = "${var.resource_group_name}"
+  lifecycle = {
+    ignore_changes = "id"
+  }
+
+  count               = "${length(local.cluster_location_list)}"
+  name                = "${replace(var.cluster_name, "#{REGION_ID}", lookup(var.location_name_map, local.cluster_location_list[count.index]))}"
+  location            = "${element(local.cluster_location_list,count.index)}"
+  resource_group_name = "${replace(var.resource_group_name, "#{REGION_ID}", lookup(var.location_name_map, local.cluster_location_list[count.index]))}"
   dns_prefix          = "${var.dns_prefix}"
   kubernetes_version  = "${var.cluster_version}"
   
@@ -25,7 +29,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     vm_size         = "${var.agent_size}"
     os_type         = "Linux"
     os_disk_size_gb = 30
-    vnet_subnet_id  = "${var.custom_vnet ? var.vnet_subnet_id : "" }"
+    vnet_subnet_id  = "${var.custom_vnet ? element(split(",", var.vnet_subnet_ids),count.index) : "" }"
   }
 
   service_principal {
