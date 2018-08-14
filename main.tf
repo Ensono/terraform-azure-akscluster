@@ -33,7 +33,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 
   network_profile {
-    network_plugin     = "${var.advanced_networking_enabled ? "Azure" : "kubenet" }"
+    network_plugin     = "${var.advanced_networking_enabled ? "azure" : "kubenet" }"
   }
 
   service_principal {
