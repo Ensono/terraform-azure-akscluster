@@ -29,7 +29,11 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     vm_size         = "${var.agent_size}"
     os_type         = "Linux"
     os_disk_size_gb = 30
-    vnet_subnet_id  = "${var.custom_vnet ? element(split(",", var.vnet_subnet_ids),count.index) : "" }"
+    vnet_subnet_id  = "${var.advanced_networking_enabled ? element(split(",", var.vnet_subnet_ids),count.index) : "" }"
+  }
+
+  network_profile {
+    network_plugin     = "${var.advanced_networking_enabled ? "Azure" : "kubenet" }"
   }
 
   service_principal {

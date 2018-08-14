@@ -35,7 +35,7 @@ variable resource_group_name {
 
 # Networking
 
-variable custom_vnet {
+variable advanced_networking_enabled {
   default = false
 }
 
