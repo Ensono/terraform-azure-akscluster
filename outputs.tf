@@ -1,9 +1,9 @@
 output "k8s_id" {
-  value = "${element(concat(azurerm_kubernetes_cluster.k8s.*.id, list("")), 0)}"
+  value = "${azurerm_kubernetes_cluster.k8s.*.id}"
 }
 
 output "k8s_endpoint" {
-  value = "${element(concat(azurerm_kubernetes_cluster.k8s.*.fqdn, list("")), 0)}"
+  value = "${azurerm_kubernetes_cluster.k8s.*.fqdn}"
 }
 
 output "k8s_private_key_pem" {
