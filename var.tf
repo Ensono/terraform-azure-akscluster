@@ -6,6 +6,7 @@ variable "agent_count" {
 
 variable "create_ssh_key" {
   default = true
+  type = bool
 }
 
 variable "agent_size" {
@@ -37,6 +38,8 @@ variable resource_group_name {
 
 variable advanced_networking_enabled {
   default = false
+  type = bool
+
 }
 
 variable vnet_subnet_ids {

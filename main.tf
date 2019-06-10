@@ -4,9 +4,6 @@ resource "tls_private_key" "ssh_key" {
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-  lifecycle = {
-    ignore_changes = "id"
-  }
 
   count               = "${length(local.cluster_location_list)}"
   name                = "${replace(var.cluster_name, "#{REGION_ID}", lookup(var.location_name_map, local.cluster_location_list[count.index]))}"
@@ -19,7 +16,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     admin_username = "ubuntu"
 
     ssh_key {
-      key_data = "${chomp(tls_private_key.ssh_key.public_key_openssh)}"
+      key_data = "${chomp(tls_private_key.ssh_key[0].public_key_openssh)}"
     }
   }
 
