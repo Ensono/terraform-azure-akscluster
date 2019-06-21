@@ -6,12 +6,20 @@ variable "agent_count" {
 
 variable "create_ssh_key" {
   default = true
-  type = bool
+  type    = bool
 }
 
 variable "agent_size" {
   default = "Standard_D2"
 }
+
+# can be either AvailabilitySet or VirtualMachineScaleSets 
+# VirtualMachineScaleSets must be enabled whilst in preview using the following command
+# az feature show --namespace Microsoft.ContainerService --name VMSSPreview
+variable "nodepool_type" {
+  default = "AvailabilitySet"
+}
+
 
 variable "dns_prefix" {
   default = "aks"
@@ -38,7 +46,7 @@ variable resource_group_name {
 
 variable advanced_networking_enabled {
   default = false
-  type = bool
+  type    = bool
 
 }
 
@@ -67,5 +75,5 @@ variable "location_name_map" {
 }
 
 locals {
-  cluster_location_list = "${compact(split(",",var.cluster_locations))}"
+  cluster_location_list = "${compact(split(",", var.cluster_locations))}"
 }
