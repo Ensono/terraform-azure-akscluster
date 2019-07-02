@@ -1,17 +1,16 @@
 resource "tls_private_key" "ssh_key" {
-  count     = "${var.create_ssh_key ? 1 : 0 }"
+  count     = "${var.create_ssh_key ? 1 : 0}"
   algorithm = "RSA"
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-
   count               = "${length(local.cluster_location_list)}"
   name                = "${replace(var.cluster_name, "#{REGION_ID}", lookup(var.location_name_map, local.cluster_location_list[count.index]))}"
-  location            = "${element(local.cluster_location_list,count.index)}"
+  location            = "${element(local.cluster_location_list, count.index)}"
   resource_group_name = "${replace(var.resource_group_name, "#{REGION_ID}", lookup(var.location_name_map, local.cluster_location_list[count.index]))}"
   dns_prefix          = "${var.dns_prefix}"
   kubernetes_version  = "${var.cluster_version}"
-  
+
   linux_profile {
     admin_username = "ubuntu"
 
@@ -26,11 +25,12 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     vm_size         = "${var.agent_size}"
     os_type         = "Linux"
     os_disk_size_gb = 30
-    vnet_subnet_id  = "${var.advanced_networking_enabled ? element(split(",", var.vnet_subnet_ids),count.index) : "" }"
+    type            = "${var.nodepool_type}"
+    vnet_subnet_id  = "${var.advanced_networking_enabled ? element(split(",", var.vnet_subnet_ids), count.index) : ""}"
   }
 
   network_profile {
-    network_plugin     = "${var.advanced_networking_enabled ? "azure" : "kubenet" }"
+    network_plugin = "${var.advanced_networking_enabled ? "azure" : "kubenet"}"
   }
 
   service_principal {
