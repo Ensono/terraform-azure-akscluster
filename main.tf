@@ -4,8 +4,8 @@ resource "tls_private_key" "ssh_key" {
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-  name                = "${replace(var.cluster_name, "#{REGION_ID}", lookup(var.location_name_map, var.cluster_locations))}"
-  location            = "${var.cluster_locations}"
+  name                = "${replace(var.cluster_name, "#{REGION_ID}", lookup(var.location_name_map, var.cluster_location))}"
+  location            = "${var.cluster_location}"
   resource_group_name = "${replace(var.resource_group_name, "#{REGION_ID}", lookup(var.location_name_map, var.cluster_location))}"
   dns_prefix          = "${var.dns_prefix}"
   kubernetes_version  = "${var.cluster_version}"

@@ -59,7 +59,7 @@ variable "client_id" {}
 
 variable "client_secret" {}
 
-variable "cluster_locations" {
+variable "cluster_location" {
   default = "uksouth"
 }
 
