@@ -45,7 +45,7 @@ variable resource_group_name {
 # Networking
 
 variable advanced_networking_enabled {
-  default = false
+  default = true
   type    = bool
 
 }
@@ -60,7 +60,15 @@ variable "client_id" {}
 variable "client_secret" {}
 
 variable "cluster_locations" {
-  default = "northeurope,westeurope"
+  default = "uksouth"
+}
+
+variable "enable_oms" {
+  default = false
+  type = bool
+}
+variable "oms_workspace" {
+  default = ""
 }
 
 variable "location_name_map" {
@@ -72,8 +80,4 @@ variable "location_name_map" {
     uksouth     = "uks"
     ukwest      = "ukw"
   }
-}
-
-locals {
-  cluster_location_list = "${compact(split(",", var.cluster_locations))}"
 }

@@ -4,10 +4,9 @@ resource "tls_private_key" "ssh_key" {
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-  count               = "${length(local.cluster_location_list)}"
-  name                = "${replace(var.cluster_name, "#{REGION_ID}", lookup(var.location_name_map, local.cluster_location_list[count.index]))}"
-  location            = "${element(local.cluster_location_list, count.index)}"
-  resource_group_name = "${replace(var.resource_group_name, "#{REGION_ID}", lookup(var.location_name_map, local.cluster_location_list[count.index]))}"
+  name                = "${replace(var.cluster_name, "#{REGION_ID}", lookup(var.location_name_map, var.cluster_locations))}"
+  location            = "${var.cluster_locations}"
+  resource_group_name = "${replace(var.resource_group_name, "#{REGION_ID}", lookup(var.location_name_map, var.cluster_location))}"
   dns_prefix          = "${var.dns_prefix}"
   kubernetes_version  = "${var.cluster_version}"
 
@@ -31,6 +30,14 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 
   network_profile {
     network_plugin = "${var.advanced_networking_enabled ? "azure" : "kubenet"}"
+    network_policy = "${var.advanced_networking_enabled ? "azure" : ""}"
+  }
+
+  addon_profile {
+    oms_agent {
+      enabled                    = "${var.enable_oms}"
+      log_analytics_workspace_id = "${azurerm_log_analytics_workspace.test.id}"
+    }
   }
 
   service_principal {
