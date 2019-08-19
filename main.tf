@@ -4,10 +4,9 @@ resource "tls_private_key" "ssh_key" {
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-  count               = "${length(local.cluster_location_list)}"
-  name                = "${replace(var.cluster_name, "#{REGION_ID}", lookup(var.location_name_map, local.cluster_location_list[count.index]))}"
-  location            = "${element(local.cluster_location_list, count.index)}"
-  resource_group_name = "${replace(var.resource_group_name, "#{REGION_ID}", lookup(var.location_name_map, local.cluster_location_list[count.index]))}"
+  name                = "${replace(var.cluster_name, "#{REGION_ID}", lookup(var.location_name_map, var.cluster_location))}"
+  location            = "${var.cluster_location}"
+  resource_group_name = "${replace(var.resource_group_name, "#{REGION_ID}", lookup(var.location_name_map, var.cluster_location))}"
   dns_prefix          = "${var.dns_prefix}"
   kubernetes_version  = "${var.cluster_version}"
 
@@ -26,11 +25,19 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     os_type         = "Linux"
     os_disk_size_gb = 30
     type            = "${var.nodepool_type}"
-    vnet_subnet_id  = "${var.advanced_networking_enabled ? element(split(",", var.vnet_subnet_ids), count.index) : ""}"
+    vnet_subnet_id  = "${var.advanced_networking_enabled ? element(split(",", var.vnet_subnet_ids), 0) : ""}"
   }
 
   network_profile {
     network_plugin = "${var.advanced_networking_enabled ? "azure" : "kubenet"}"
+    network_policy = "${var.advanced_networking_enabled ? "azure" : ""}"
+  }
+
+  addon_profile {
+    oms_agent {
+      enabled                    = "${var.enable_oms}"
+      log_analytics_workspace_id = "${var.enable_oms ? var.oms_workspace : ""}"
+    }
   }
 
   service_principal {
