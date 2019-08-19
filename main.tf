@@ -25,7 +25,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     os_type         = "Linux"
     os_disk_size_gb = 30
     type            = "${var.nodepool_type}"
-    vnet_subnet_id  = "${var.advanced_networking_enabled ? element(split(",", var.vnet_subnet_ids), count.index) : ""}"
+    vnet_subnet_id  = "${var.advanced_networking_enabled ? element(split(",", var.vnet_subnet_ids), 0) : ""}"
   }
 
   network_profile {
