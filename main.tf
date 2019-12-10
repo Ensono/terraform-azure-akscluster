@@ -25,12 +25,12 @@ resource "azurerm_kubernetes_cluster" "k8s_auto_scaled" {
     # node_taints           = [] -> null
     # max_pods        = var.max_pods != 0 ? var.max_pods : 1
     # enable_node_public_ip = false
-    # type                  = "VirtualMachineScaleSets"
+    type                = var.nodepool_type # "VirtualMachineScaleSets" # default
     enable_auto_scaling = true
-    max_count           = var.enable_auto_scaling ? (var.max_nodes != 0 ? var.max_nodes : 100) : 0
-    min_count           = var.enable_auto_scaling ? (var.min_nodes != 0 ? var.min_nodes : 1) : 0
+    max_count           = var.max_nodes
+    min_count           = var.min_nodes
     name                = "default"
-    os_disk_size_gb     = var.os_disk_size != 0 ? var.os_disk_size : 30 # this should be configurable
+    os_disk_size_gb     = var.os_disk_size
     vm_size             = var.agent_size
     vnet_subnet_id = var.vnet_subnet_id
   }

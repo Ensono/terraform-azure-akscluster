@@ -96,22 +96,17 @@ variable "enable_auto_scaling" {
 
 variable "max_pods" {
   type    = number
-  default = 0
+  default = 100
 }
 
 variable "max_nodes" {
   type    = number
-  default = 0
-}
-
-variable "min_pods" {
-  type    = number
-  default = 0
+  default = 10
 }
 
 variable "min_nodes" {
   type    = number
-  default = 0
+  default = 1
 }
 
 variable "node_count" {
@@ -122,10 +117,10 @@ variable "node_count" {
 # DEFAULTS TO 30 if not overwritten
 variable "os_disk_size" {
   type    = number
-  default = 0
+  default = 30
 }
 
 variable "oms_ws_list_of_one" {
   type    = list(map(string))
-  default = []
+  default = [{}]
 }

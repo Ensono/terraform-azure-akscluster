@@ -62,6 +62,8 @@ module "aks-cluster" {
   client_secret       = var.client_secret
   tags                = var.resource_group_tags
   agent_size          = "Standard_D3_v2"
+  nodepool_type       = "VirtualMachineScaleSets"
+  node_count          = 1
   # this should really be an array... but anyway
   # legacy param `vnet_subnet_ids`
   vnet_subnet_ids = data.azurerm_subnet.default.id
