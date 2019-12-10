@@ -73,16 +73,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     }
   }
 
-  # agent_pool_profile {
-  #   name            = "default"
-  #   count           = var.agent_count
-  #   vm_size         = var.agent_size
-  #   os_type         = "Linux"
-  #   os_disk_size_gb = 30
-  #   type            = var.nodepool_type
-  #   vnet_subnet_id  = var.advanced_networking_enabled ? element(split(",", var.vnet_subnet_ids), 0) : ""
-  # }
-
   default_node_pool {
     enable_auto_scaling = false
     name                = "default"
