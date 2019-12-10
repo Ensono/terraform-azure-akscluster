@@ -5,28 +5,27 @@ variable "agent_count" {
 }
 
 variable "create_ssh_key" {
-  default = true
   type    = bool
+  default = true
 }
 
 variable "agent_size" {
   default = "Standard_D2"
 }
 
-# can be either AvailabilitySet or VirtualMachineScaleSets 
+# can be either AvailabilitySet or VirtualMachineScaleSets
 # VirtualMachineScaleSets must be enabled whilst in preview using the following command
 # az feature show --namespace Microsoft.ContainerService --name VMSSPreview
 variable "nodepool_type" {
   default = "AvailabilitySet"
 }
 
-
 variable "dns_prefix" {
   default = "aks"
 }
 
 variable "tags" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
 
@@ -51,7 +50,12 @@ variable advanced_networking_enabled {
 }
 
 variable vnet_subnet_ids {
-  type = "string"
+  type = string
+}
+
+variable vnet_subnet_id {
+  type    = string
+  default = ""
 }
 
 # Set up Kubernetes SPN
@@ -60,19 +64,21 @@ variable "client_id" {}
 variable "client_secret" {}
 
 variable "cluster_location" {
+  type    = string
   default = "uksouth"
 }
 
 variable "enable_oms" {
   default = false
-  type = bool
+  type    = bool
 }
 variable "oms_workspace" {
+  type    = string
   default = ""
 }
 
 variable "location_name_map" {
-  type = "map"
+  type = map(string)
 
   default = {
     northeurope = "eun"
@@ -80,4 +86,46 @@ variable "location_name_map" {
     uksouth     = "uks"
     ukwest      = "ukw"
   }
+}
+
+variable "enable_auto_scaling" {
+  type    = bool
+  default = false
+}
+
+
+variable "max_pods" {
+  type    = number
+  default = 0
+}
+
+variable "max_nodes" {
+  type    = number
+  default = 0
+}
+
+variable "min_pods" {
+  type    = number
+  default = 0
+}
+
+variable "min_nodes" {
+  type    = number
+  default = 0
+}
+
+variable "node_count" {
+  type    = number
+  default = 0
+}
+
+# DEFAULTS TO 30 if not overwritten
+variable "os_disk_size" {
+  type    = number
+  default = 0
+}
+
+variable "oms_ws_list_of_one" {
+  type    = list(map(string))
+  default = []
 }

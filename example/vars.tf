@@ -1,10 +1,9 @@
 variable "resource_group_location" {
-  default = "northeurope"
+  default = "westeurope"
 }
 
 variable "resource_group_tags" {
-  type = "map"
-
+  type = map(string)
   default = {
     environment = "reference"
   }
@@ -14,6 +13,24 @@ variable "cluster_agent_count" {
   default = 2
 }
 
-variable "cluster_spn_clientid" {}
+variable "client_id" {}
 
-variable "cluster_spn_clientsecret" {}
+variable "client_secret" {}
+
+variable "tenant_id" {}
+
+variable "subscription_id" {}
+
+variable "rg_name" {}
+
+variable "vnet_id" {}
+
+variable "enable_auto_scaling" {
+  type    = bool
+  default = false
+}
+
+variable "max_nodes" {
+  type    = number
+  default = 100
+}

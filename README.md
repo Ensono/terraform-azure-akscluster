@@ -7,7 +7,7 @@ Terraform module which creates AKS Cluster resources on Azure.
 
 ```hcl
 module "aks-cluster" {
-  source = "git::https://github.com/amido/terraform-azure-akscluster.git"
+  source = "git::https://github.com/amido/terraform-azure-akscluster.git?ref=v1.0.0"
   cluster_name        = "${var.resource_group_name}"
   agent_count         = "${var.cluster_agent_count}"
   location            = "${var.resource_group_location}"
@@ -15,8 +15,29 @@ module "aks-cluster" {
   client_id           = "${var.cluster_spn_clientid}"
   client_secret       = "${var.cluster_spn_clientsecret}"
   tags                = "${var.resource_group_tags}"
-  
 }
+```
+
+Always pin your module version using either the tagged release or sha_id of the version of tghe
+
+See examples folder for sample invocation as standalone plan/output
+
+create a `terraform.tfvars` file in the examples folder and replace the following values.
+
+```
+  subscription_id="your_sub_id"
+  tenant_id="your_tenant_id"
+  client_id="your_client_id"
+  client_secret="your_client_secret"
+  vnet_id="pre-existing-vnet-name"
+  rg_name="pre-existing-rg-name"
+  resource_group_location="westeuropse"
+```
+
+```hcl 
+terraform init
+terraform plan 
+terraform apply
 ```
 
 ## Provisioning Result
