@@ -18,9 +18,12 @@ module "aks-cluster" {
 }
 ```
 
-Always pin your module version using either the tagged release or sha_id of the version of tghe
+
+> **WARNING**: Always pin your module version using either the tagged release or sha_id of the version of the commit.
+
 
 See examples folder for sample invocation as standalone plan/output
+
 
 create a `terraform.tfvars` file in the examples folder and replace the following values.
 
@@ -35,8 +38,10 @@ create a `terraform.tfvars` file in the examples folder and replace the followin
 ```
 
 ```hcl 
-terraform init
-terraform plan 
+cd examples/; \
+terraform init && \
+terraform workspace select test || terraform workspace new test && \
+terraform plan && \
 terraform apply
 ```
 
